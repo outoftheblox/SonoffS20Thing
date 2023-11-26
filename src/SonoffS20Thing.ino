@@ -46,14 +46,14 @@ void setup()
     //  value = state;
     //});
 
-    thing.addActuator(thing.clientId() + "/button/feedback", [](Value& value){
+    thing.addActuator("things/" + thing.clientId() + "/button/feedback", [](Value& value){
         Serial.println("Got " + (String)value);
         feedbackState = (bool)value;
         state = feedbackState;
         led.setPattern(done);
     });
 
-    thing.addActuator(thing.clientId() + "/relay/switch", [](Value& value){
+    thing.addActuator("things/" + thing.clientId() + "/relay/switch", [](Value& value){
         state = (bool)value;
         digitalWrite(RELAY_PIN, state);
         Serial.println("Got:" + String(state));
@@ -79,7 +79,7 @@ void handle()
         led.setPattern(request);
         Value value = state;
         digitalWrite(RELAY_PIN, state);
-        thing.publish(thing.clientId() + "/button/state", value);
+        thing.publish("things/" + thing.clientId() + "/button/state", value);
     }
     buttonState = pushed;
 }
